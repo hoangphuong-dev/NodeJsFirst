@@ -7,13 +7,13 @@ var users = [
   { id: 3, name: "User1", email: "user1.2@gmail.com", age: 25 },
 ];
 
-user_router.get("/users", function (req, res) {
+user_router.get("/", function (req, res) {
   res.render("users/index", {
     users: users,
   });
 });
 
-user_router.get("/users/search", (req, res) => {
+user_router.get("/search", (req, res) => {
   var name_search = req.query.name; // lấy giá trị của key name trong query parameters gửi lên
   var age_search = req.query.age; // lấy giá trị của key age trong query parameters gửi lên
   var result = users.filter((user) => {
@@ -30,25 +30,23 @@ user_router.get("/users/search", (req, res) => {
   });
 });
 
-user_router.get("/users/create", (req, res) => {
+user_router.get("/create", (req, res) => {
   res.render("users/create");
 });
 
-user_router.post("/users/create", (req, res) => {
+user_router.post("/create", (req, res) => {
   users.push(req.body);
-  res.redirect("/users");
+  res.redirect("/");
 });
 
-user_router.get("/users/:id", (req, res) => {
-  // Tìm user phù hợp với params id
+user_router.get("/:id", (req, res) => {
   var user = users.find((user) => {
     return user.id == parseInt(req.params.id);
   });
-
-  // Render trang show, với một biến user được định nghĩa là user vừa tìm được
   res.render("users/show", {
     user: user,
   });
 });
 
+// Exports cho biến user_router
 module.exports = user_router;
